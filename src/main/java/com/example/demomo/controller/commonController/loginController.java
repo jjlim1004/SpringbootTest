@@ -6,10 +6,13 @@ import com.example.demomo.entity.Member;
 import com.example.demomo.service.kakaoService.KakaoAPI;
 import com.example.demomo.service.memberService.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -46,9 +49,11 @@ public class loginController {
     }
 
     @PostMapping("/join")
-    public String memberJoin(MemberDTO memberDto){
+    @ResponseBody
+    public ResponseEntity memberJoin(MemberDTO memberDto){
         memberService.Join(memberDto);
-        return "login";
+        MemberDTO member = memberDto;
+        return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
     @GetMapping("/myPage")
